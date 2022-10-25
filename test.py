@@ -1,9 +1,19 @@
-import json
+import json,math
 
-file = open('saved-data.json', 'r')
+file = open('sid-saved-data.json', 'r')
 
 jsonfile = json.load(file)
 
 
-print(sum(i.count(255) for i in jsonfile))
-print(sum(i.count(0) for i in jsonfile))
+whiteValues = sum(i.count(255) for i in jsonfile)
+blackValues = sum(i.count(0) for i in jsonfile)
+
+print(whiteValues)
+print(blackValues)
+
+print(whiteValues / 10000)
+
+if math.isclose(whiteValues / 10000, 2.8,abs_tol=0.2):
+    print("Hello Siddharth"), print(whiteValues)
+else:
+    print("Imposter"), print(whiteValues)

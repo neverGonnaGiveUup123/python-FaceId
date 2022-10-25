@@ -11,6 +11,8 @@ if not camera.isOpened():
     exit()
 
 e = 0
+counter = 0
+
 
 while True:
     check, frame = camera.read()
@@ -26,21 +28,22 @@ while True:
     for x,y,w,h in detectedFace:
         if w*h <= 50000:
             cv.putText(grey,"Closer",(240,100),cv.FONT_HERSHEY_COMPLEX,1,(0,0,0),1)
-        elif w*h >= 50000:
+        elif w*h >= 50000 and counter < 20:
             grey = cv.rectangle(grey,(x,y),(x+w,y+h),(0,255,0),2)
             thresh = grey[x:x+w, y:y+h]
             babaaaaaaaaaaaa,threshBinary = cv.threshold(thresh,100,255,cv.THRESH_BINARY)
 
             if e == 0:
-                with open("saved-data.json","w") as file:
+                with open("sid-saved-data.json","w") as file:
                     json.dump(threshBinary.tolist(),file)
                 e = 1
 
             cv.imshow("EEE",threshBinary)
             print(threshBinary)
+            counter += 1
             
         else:
-            print("Error")
+            quit()
 
 
     cv.imshow("HHH",grey)
