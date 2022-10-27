@@ -12,8 +12,9 @@ print(whiteValues)
 print(blackValues)
 
 print(whiteValues / 10000)
+print(blackValues / 10000)
 
 if math.isclose(whiteValues / 10000, 2.8,abs_tol=0.2):
     print("Hello Siddharth"), print(whiteValues)
 else:
-    print("Imposter"), print(whiteValues)
+    print("Your not Siddharth"), print(whiteValues)
