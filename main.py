@@ -4,6 +4,12 @@ import json
 
 camera = cv.VideoCapture(0)
 
+
+lightAverage = 0
+
+DATA = [None,None,None,None,None]
+
+
 haarcas = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
 
 if not camera.isOpened():
@@ -16,12 +22,6 @@ checkCounter = False
 
 while True:
     check, frame = camera.read()
-
-    if checkCounter == True:
-        counter = 0
-        checkCounter = False
-    if counter == counter + 1:
-        checkCounter = True
 
     if not check:
         print("Camera has a skill issue.")
@@ -39,12 +39,19 @@ while True:
             grey = cv.rectangle(grey,(x,y),(x+w,y+h),(0,255,0),2)
             thresh = grey[x:x+w, y:y+h]
             babaaaaaaaaaaaa,threshBinary = cv.threshold(thresh,lightValue,255,cv.THRESH_BINARY)
-            counter +=1
             print(counter) 
 
-            if counter == 20:
+            DATA[counter] = threshBinary.tolist()
+            
+            lightAverage += lightValue
+            counter +=1
+
+            if counter >= 5:
+                lightAverage = lightAverage / 5
+                DATA.append(lightAverage)
                 with open("sid-saved-data.json","w") as file:
-                    json.dump(threshBinary.tolist(),file)
+                    json.dump(DATA,file)
+                print(lightAverage)
                 quit()
 
             cv.imshow("EEE",threshBinary)
